@@ -56,14 +56,12 @@ int main() {
 
       // If closed parenthesis pop until open parenthesis found
       else if (currentOp == ')') {
-        // Pops and frees the ')'
-        free(pop(&top));
 
         // Until '(' is found, appends the operators and frees their memory
-        while (peek(top) != '(') {
-          postfix[j++] = peek(top);
+        do {
+          if (peek(top) != '(') postfix[j++] = peek(top);
           free(pop(&top));
-        }
+        } while (peek(top) != '(');
       }
 
       // If the operator is of higher precedence, push it
@@ -97,7 +95,7 @@ int main() {
 
   // Adds remaining operators in the stack to postfix
   while (top != NULL) {
-    postfix[j++] = peek(top);
+    if (peek(top) != '(') postfix[j++] = peek(top);
     free(pop(&top));
 
     // Prints the steps
